@@ -73,7 +73,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
                 const passwordMatched = await compare(
                     password as string,
-                    userPassword as string
+                    userPassword as string,
                 );
 
                 if (passwordMatched) {

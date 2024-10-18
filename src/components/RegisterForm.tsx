@@ -52,7 +52,10 @@ const RegisterForm = () => {
             const results = await register(values);
             setError(results?.error);
             setSuccess(results?.success);
-            await login({ email: values.email, password: values.password });
+            await login({
+                email: values.email.toLowerCase(),
+                password: values.password,
+            });
         });
     };
 

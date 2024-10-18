@@ -19,4 +19,8 @@ export const registerFormSchema = z
     .refine((data) => data.password === data.confirmPassword, {
         message: "Password doesn't match",
         path: ["confirmPassword"],
+    })
+    .refine((data) => isNaN(+data.name), {
+        message: "Name must be a valid word",
+        path: ["name"],
     });

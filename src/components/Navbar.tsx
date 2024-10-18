@@ -12,7 +12,7 @@ const Navbar = async () => {
 
     if (session) {
         user = session.user;
-        isAdmin = session.user.isAdmin;
+        isAdmin = session.user?.isAdmin;
     }
 
     return (

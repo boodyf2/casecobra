@@ -26,7 +26,11 @@ export const login = async (values: z.infer<typeof loginFormSchema>) => {
         //     };
         // }
 
-        await signIn("credentials", { email, password, redirectTo: "/" });
+        await signIn("credentials", {
+            email: email.toLowerCase(),
+            password,
+            redirectTo: "/",
+        });
     } catch (error) {
         if (error instanceof AuthError) {
             switch (error.type) {

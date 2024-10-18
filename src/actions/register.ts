@@ -11,8 +11,11 @@ export const register = async (user: z.infer<typeof registerFormSchema>) => {
     }
 
     try {
-        // const { email } = results.data;
-        await createUser(results.data);
+        const { email } = results.data;
+        await createUser({
+            ...results.data,
+            email: email.toLowerCase(),
+        });
         // const verificationToken = await generateVerificationToken(email);
     } catch {
         return { error: "User already exists!" };
