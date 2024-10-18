@@ -22,14 +22,14 @@ const Navbar = async () => {
                     <Link href="/" className="flex z-40 text-2xl font-semibold">
                         case<span className="text-green-600">cobra</span>
                     </Link>
-                    <div className="flex items-center h-full space-x-4 ">
+                    <div className="flex items-center h-full space-x-2 md:space-x-4 ">
                         {user ? (
                             <>
                                 {isAdmin && (
                                     <Link
                                         href="/"
                                         className={buttonVariants({
-                                            size: "default",
+                                            size: "sm",
                                             variant: "ghost",
                                         })}
                                     >
@@ -37,7 +37,11 @@ const Navbar = async () => {
                                     </Link>
                                 )}
                                 <form action={logout}>
-                                    <Button variant="ghost" type="submit">
+                                    <Button
+                                        size="sm"
+                                        variant="ghost"
+                                        type="submit"
+                                    >
                                         Logout
                                     </Button>
                                 </form>
@@ -67,9 +71,9 @@ const Navbar = async () => {
 
                         <div className="h-8 w-px bg-zinc-200 hidden sm:block" />
                         <Link
-                            href="/"
+                            href="/configure/upload"
                             className={buttonVariants({
-                                size: "default",
+                                size: "sm",
                                 variant: "default",
                                 className: "font-semibold",
                             })}
