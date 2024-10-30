@@ -6,7 +6,7 @@ import lightPhone from "@/assets/phone-template-white-edges.png";
 import darkPhone from "@/assets/phone-template-dark-edges.png";
 
 interface PhoneProps extends HTMLAttributes<HTMLDivElement> {
-    imgSrc: StaticImageData;
+    imgSrc: StaticImageData | string;
     className?: string;
     dark?: boolean;
 }
@@ -24,11 +24,19 @@ const Phone = ({ imgSrc, dark, className, ...props }: PhoneProps) => {
                 className="pointer-events-none z-50 select-none"
                 src={dark ? darkPhone : lightPhone}
                 alt="phone"
+                width={0}
+                height={0}
+                sizes="100vw"
+                priority={true}
             />
             <Image
-                className="absolute -z-10 inset-0 object-cover"
+                className="absolute -z-10 inset-0 object-cover min-w-full min-h-full"
                 src={imgSrc}
                 alt="cover-image"
+                width={0}
+                height={0}
+                sizes="100vw"
+                priority={true}
             />
         </div>
     );

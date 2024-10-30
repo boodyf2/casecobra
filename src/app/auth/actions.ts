@@ -1,10 +1,15 @@
 "use server";
 import { signIn } from "@/auth";
-import { loginFormSchema } from "@/schemas";
+import { createUser } from "@/data/user";
+import { loginFormSchema, registerFormSchema } from "@/schemas";
 import { AuthError } from "next-auth";
+import { signOut } from "@/auth";
 import { z } from "zod";
 
-export const login = async (values: z.infer<typeof loginFormSchema>) => {
+export const login = async (
+    values: z.infer<typeof loginFormSchema>,
+    configId: string | null
+) => {
     const result = loginFormSchema.safeParse(values);
     if (!result.success) {
         return { error: "Something went wrong" };
@@ -29,7 +34,7 @@ export const login = async (values: z.infer<typeof loginFormSchema>) => {
         await signIn("credentials", {
             email: email.toLowerCase(),
             password,
-            redirectTo: "/",
+            redirectTo: configId ? `/configure/preview?id=${configId}` : "/",
         });
     } catch (error) {
         if (error instanceof AuthError) {
@@ -49,6 +54,33 @@ export const login = async (values: z.infer<typeof loginFormSchema>) => {
     return { success: "Redirecting..." };
 };
 
-export const loginWithGoogle = async () => {
-    await signIn("google");
+export const loginWithGoogle = async (configId: string | null) => {
+    await signIn("google", {
+        redirectTo: configId ? `/configure/preview?id=${configId}` : "/",
+    });
+};
+
+export const register = async (user: z.infer<typeof registerFormSchema>) => {
+    const results = registerFormSchema.safeParse(user);
+
+    if (!results.success) {
+        return { error: "Something went wrong" };
+    }
+
+    try {
+        const { email } = results.data;
+        await createUser({
+            ...results.data,
+            email: email.toLowerCase(),
+        });
+        // const verificationToken = await generateVerificationToken(email);
+    } catch {
+        return { error: "User already exists!" };
+    }
+
+    return { success: "Redirecting..." };
+};
+
+export const logout = async () => {
+    await signOut();
 };

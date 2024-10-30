@@ -1,20 +1,47 @@
+import { prisma } from "@/prisma";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
-import { UploadThingError } from "uploadthing/server";
+import sharp from "sharp";
+import { z } from "zod";
 
 const f = createUploadthing();
 
-const auth = (req: Request) => ({ id: "fakeId" }); // Fake auth function
-
 export const ourFileRouter = {
     imageUploader: f({ image: { maxFileSize: "4MB" } })
-        .middleware(async ({ req }) => {
-            const user = await auth(req);
-
-            if (!user) throw new UploadThingError("Unauthorized");
-
-            return { userId: user.id };
+        .input(z.object({ configId: z.string().optional() }))
+        .middleware(async ({ input }) => {
+            return { input };
         })
-        .onUploadComplete(async ({ metadata, file }) => {}),
+        .onUploadComplete(async ({ metadata, file }) => {
+            const { configId } = metadata.input;
+
+            if (!configId) {
+                const imgRes = await fetch(file.url);
+                const imgBuffer = await imgRes.arrayBuffer();
+                const imgMetadata = await sharp(imgBuffer).metadata();
+                const { width, height } = imgMetadata;
+
+                const config = await prisma.configuration.create({
+                    data: {
+                        width: width || 500,
+                        height: height || 500,
+                        imageUrl: file.url,
+                    },
+                });
+
+                return { configId: config.id };
+            }
+
+            await prisma.configuration.update({
+                where: {
+                    id: configId,
+                },
+                data: {
+                    croppedImageUrl: file.url,
+                },
+            });
+
+            return { configId };
+        }),
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;

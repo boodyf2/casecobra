@@ -9,6 +9,7 @@ import { compare } from "bcryptjs";
 
 declare module "next-auth/jwt" {
     interface JWT {
+        id: string;
         isAdmin: boolean;
     }
 }
@@ -16,11 +17,13 @@ declare module "next-auth/jwt" {
 declare module "next-auth" {
     interface Session {
         user: {
+            id: string;
             isAdmin: boolean;
         } & DefaultSession["user"];
     }
 
     interface User {
+        id?: string;
         isAdmin?: boolean;
     }
 }
@@ -42,6 +45,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     callbacks: {
         jwt: ({ token, user }) => {
             if (user && user.isAdmin) {
+                token.id = user.id || "";
                 token.isAdmin = user.isAdmin || false;
             }
 
@@ -50,6 +54,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         session: ({ session, token }) => {
             session.user.isAdmin = token.isAdmin;
+            session.user.id = token.id;
 
             return session;
         },
@@ -73,7 +78,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
                 const passwordMatched = await compare(
                     password as string,
-                    userPassword as string,
+                    userPassword as string
                 );
 
                 if (passwordMatched) {

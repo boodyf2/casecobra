@@ -1,4 +1,4 @@
-import LoginForm from "@/components/LoginForm";
+import LoginForm from "./LoginForm";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import React from "react";
 

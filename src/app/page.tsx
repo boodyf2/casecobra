@@ -286,7 +286,7 @@ const HomePage = () => {
 
                         <div className="flex justify-center">
                             <Link
-                                href="/"
+                                href="/configure/upload"
                                 className={buttonVariants({
                                     size: "lg",
                                     variant: "default",

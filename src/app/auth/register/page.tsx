@@ -1,5 +1,5 @@
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import RegisterForm from "@/components/RegisterForm";
+import RegisterForm from "./RegisterForm";
 import React from "react";
 
 const RegisterPage = () => {

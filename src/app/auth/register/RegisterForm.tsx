@@ -1,8 +1,10 @@
 "use client";
-import { loginFormSchema } from "@/schemas";
+import { registerFormSchema } from "@/schemas";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { login, loginWithGoogle } from "@/actions/login";
+import { login, loginWithGoogle } from "@/app/auth/actions";
+import { register } from "../actions";
+import Link from "next/link";
 import z from "zod";
 
 import { FaGoogle } from "react-icons/fa";
@@ -26,14 +28,15 @@ import {
 import { useState, useTransition } from "react";
 import SuccessMessage from "@/components/SuccessMessage";
 import ErrorMessage from "@/components/ErrorMessage";
-import Link from "next/link";
 
-const LoginForm = () => {
-    const form = useForm<z.infer<typeof loginFormSchema>>({
-        resolver: zodResolver(loginFormSchema),
+const RegisterForm = () => {
+    const form = useForm<z.infer<typeof registerFormSchema>>({
+        resolver: zodResolver(registerFormSchema),
         values: {
+            name: "",
             email: "",
             password: "",
+            confirmPassword: "",
         },
     });
 
@@ -41,21 +44,25 @@ const LoginForm = () => {
     const [error, setError] = useState<string | undefined>("");
     const [isPending, startTransition] = useTransition();
 
-    const onSubmit = (values: z.infer<typeof loginFormSchema>) => {
+    const onSubmit = (values: z.infer<typeof registerFormSchema>) => {
         setSuccess("");
         setError("");
 
         startTransition(async () => {
-            const results = await login(values);
+            const results = await register(values);
             setError(results?.error);
             setSuccess(results?.success);
+            await login({
+                email: values.email.toLowerCase(),
+                password: values.password,
+            });
         });
     };
 
     return (
         <Card className="w-full md:w-9/12 lg:w-6/12">
             <CardHeader>
-                <CardTitle className="text-2xl">Login</CardTitle>
+                <CardTitle className="text-2xl">Register</CardTitle>
             </CardHeader>
             <CardContent className="space-y-8">
                 <Form {...form}>
@@ -65,6 +72,22 @@ const LoginForm = () => {
                     >
                         <FormField
                             control={form.control}
+                            name="name"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Name</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            placeholder="John Doe"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
                             name="email"
                             render={({ field }) => (
                                 <FormItem>
@@ -72,7 +95,6 @@ const LoginForm = () => {
                                     <FormControl>
                                         <Input
                                             placeholder="example@domain.com"
-                                            type="email"
                                             {...field}
                                         />
                                     </FormControl>
@@ -93,12 +115,26 @@ const LoginForm = () => {
                                 </FormItem>
                             )}
                         />
+                        <FormField
+                            control={form.control}
+                            name="confirmPassword"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel>Confirm Password</FormLabel>
+                                    <FormControl>
+                                        <Input type="password" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                         <Button
                             className="w-full"
-                            disabled={isPending}
                             type="submit"
+                            isLoading={isPending}
+                            loadingText="Registering your data"
                         >
-                            Submit
+                            Register
                         </Button>
                     </form>
                 </Form>
@@ -116,7 +152,7 @@ const LoginForm = () => {
                     variant="outline"
                 >
                     <FaGoogle className="mr-2" />
-                    Login with Google
+                    Signup with Google
                 </Button>
                 <SuccessMessage message={success} />
                 <ErrorMessage message={error} />
@@ -125,13 +161,13 @@ const LoginForm = () => {
             <CardFooter>
                 <Link
                     className="w-full text-center text-green-600 hover:text-green-700 transition"
-                    href="/auth/register"
+                    href="/auth/login"
                 >
-                    Don&apos;t have an account?
+                    Already have an account?
                 </Link>
             </CardFooter>
         </Card>
     );
 };
 
-export default LoginForm;
+export default RegisterForm;

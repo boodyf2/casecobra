@@ -3,7 +3,7 @@ import MaxWidthWrapper from "./MaxWidthWrapper";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { auth } from "@/auth";
-import { logout } from "@/actions/logout";
+import { logout } from "@/app/auth/actions";
 
 const Navbar = async () => {
     const session = await auth();
