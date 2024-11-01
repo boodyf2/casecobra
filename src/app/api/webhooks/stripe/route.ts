@@ -2,7 +2,6 @@ import { stripe } from "@/lib/stripe";
 import { prisma } from "@/prisma";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import Stripe from "stripe";
 
 export const POST = async (request: Request) => {
     try {
@@ -10,7 +9,7 @@ export const POST = async (request: Request) => {
         const signature = headers().get("stripe-signature");
 
         if (!signature) {
-            throw new Error("Invalid Signature");
+            return new Response("Invalid signature!", { status: 404 });
         }
 
         const event = stripe.webhooks.constructEvent(
@@ -27,7 +26,7 @@ export const POST = async (request: Request) => {
             throw new Error("Missing user email!");
         }
 
-        const session = event.data.object || Stripe.Checkout.SessionsResource;
+        const session = event.data.object;
         const { orderId } = session.metadata!;
         const address = session.customer_details?.address;
         const customerDetails = session.customer_details;
