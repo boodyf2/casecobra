@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { auth } from "@/auth";
 import { logout } from "@/app/auth/actions";
 
+// TODO: add a mobile responsive menu
 const Navbar = async () => {
     const session = await auth();
     let user = null;

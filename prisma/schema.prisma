@@ -109,7 +109,7 @@ model Order {
 
     shippingAddressId String?
     shippingAddress   ShippingAddress? @relation(fields: [shippingAddressId], references: [id])
-    BillingAddress    BillingAddress?  @relation(fields: [billingAddressId], references: [id])
+    billingAddress    BillingAddress?  @relation(fields: [billingAddressId], references: [id])
     billingAddressId  String?
 
     createdAt DateTime @default(now())

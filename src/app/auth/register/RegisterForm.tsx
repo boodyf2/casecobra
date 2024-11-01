@@ -52,10 +52,14 @@ const RegisterForm = () => {
             const results = await register(values);
             setError(results?.error);
             setSuccess(results?.success);
-            await login({
-                email: values.email.toLowerCase(),
-                password: values.password,
-            });
+            const configId = localStorage.getItem("configId");
+            await login(
+                {
+                    email: values.email.toLowerCase(),
+                    password: values.password,
+                },
+                configId
+            );
         });
     };
 
