@@ -8,7 +8,7 @@ import { z } from "zod";
 
 export const login = async (
     values: z.infer<typeof loginFormSchema>,
-    configId: string | null
+    configId?: string | null
 ) => {
     const result = loginFormSchema.safeParse(values);
     if (!result.success) {
@@ -54,7 +54,7 @@ export const login = async (
     return { success: "Redirecting..." };
 };
 
-export const loginWithGoogle = async (configId: string | null) => {
+export const loginWithGoogle = async (configId?: string | null) => {
     await signIn("google", {
         redirectTo: configId ? `/configure/preview?id=${configId}` : "/",
     });
