@@ -64,7 +64,7 @@ const RegisterForm = () => {
     };
 
     return (
-        <Card className="w-full md:w-9/12 lg:w-6/12">
+        <Card className="w-full my-4 md:w-9/12 lg:w-6/12">
             <CardHeader>
                 <CardTitle className="text-2xl">Register</CardTitle>
             </CardHeader>
