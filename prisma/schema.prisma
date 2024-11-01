@@ -121,7 +121,7 @@ model ShippingAddress {
     name        String
     street      String
     city        String
-    postalCode  String
+    postalCode  String?
     country     String
     state       String?
     phoneNumber String?

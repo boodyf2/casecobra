@@ -69,6 +69,7 @@ const CreatePage = () => {
                     }}
                     onDragEnter={() => setIsDragOver(true)}
                     onDragLeave={() => setIsDragOver(false)}
+                    disabled={isUploading || isPending}
                 >
                     {({ getRootProps, getInputProps }) => (
                         <div
