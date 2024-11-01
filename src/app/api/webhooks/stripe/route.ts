@@ -28,7 +28,7 @@ export const POST = async (request: Request) => {
         }
 
         const session = event.data.object || Stripe.Checkout.SessionsResource;
-        const { userId, orderId } = session.metadata;
+        const { orderId } = session.metadata!;
         const address = session.customer_details?.address;
         const customerDetails = session.customer_details;
 
