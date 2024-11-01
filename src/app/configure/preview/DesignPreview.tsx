@@ -85,7 +85,10 @@ const DesignPreview = ({ config }: { config: Configuration }) => {
         <>
             <div className="my-10 grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div className="space-y-2 max-w-52 mx-auto lg:max-w-52 col-span-1">
-                    <Phone imgSrc={croppedImageUrl as string} color={colorTw} />
+                    <Phone
+                        imgSrc={croppedImageUrl as string}
+                        className={`bg-${colorTw}`}
+                    />
                 </div>
                 <div className="space-y-8 col-span-2">
                     <div className="space-y-2">

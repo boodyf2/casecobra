@@ -55,7 +55,7 @@ const PhonePreview = ({
                     alt="cover-img"
                     className={cn(
                         "phone-skew relative z-20 rounded-t-[15px] rounded-b-[10px] md:rounded-t-[30px] md:rounded-b-[20px]",
-                        colorTw
+                        `bg-${colorTw}`
                     )}
                     width={renderedDims.width / (3000 / 637)}
                     height={0}
