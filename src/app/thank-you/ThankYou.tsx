@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getPaymentStatus } from "./actions";
 import { Loader2 } from "lucide-react";
 import PhonePreview from "@/components/PhonePreview";
+import { formatPrice } from "@/lib/utils";
 
 const ThankYou = ({ orderId }: { orderId: string }) => {
     const { data } = useQuery({
@@ -44,7 +45,7 @@ const ThankYou = ({ orderId }: { orderId: string }) => {
                     <p className="text-base font-bold text-green-700">
                         Thank you!
                     </p>
-                    <h1 className="text-3xl font-bold">
+                    <h1 className="text-5xl font-bold">
                         Your case is on the way!
                     </h1>
                     <p className="text-zinc-500 font-semibold">
@@ -101,6 +102,28 @@ const ThankYou = ({ orderId }: { orderId: string }) => {
                         <h2 className="text-zinc-700">Shipping method</h2>
                         <p className="text-zinc-500">
                             DHL, takes up to 3 working days
+                        </p>
+                    </div>
+                </div>
+
+                <hr />
+                <div className="space-y-4">
+                    <div className="flex justify-between">
+                        <p className="text-zinc-700">Subtotal</p>
+                        <p className="text-sm text-zinc-500">
+                            {formatPrice(data.amount)}
+                        </p>
+                    </div>
+                    <div className="flex justify-between">
+                        <p className="text-zinc-700">Shipping</p>
+                        <p className="text-sm text-zinc-500">
+                            {formatPrice(0)}
+                        </p>
+                    </div>
+                    <div className="flex justify-between">
+                        <p className="text-zinc-700">Total</p>
+                        <p className="text-sm text-zinc-500">
+                            {formatPrice(data.amount + 0)}
                         </p>
                     </div>
                 </div>

@@ -27,6 +27,7 @@ import { useState, useTransition } from "react";
 import SuccessMessage from "@/components/SuccessMessage";
 import ErrorMessage from "@/components/ErrorMessage";
 import Link from "next/link";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 const LoginForm = () => {
     const form = useForm<z.infer<typeof loginFormSchema>>({
@@ -40,7 +41,7 @@ const LoginForm = () => {
     const [success, setSuccess] = useState<string | undefined>("");
     const [error, setError] = useState<string | undefined>("");
     const [isPending, startTransition] = useTransition();
-    const configId = localStorage.getItem("configId");
+    const { storedValue: configId } = useLocalStorage("configId", "");
 
     const onSubmit = (values: z.infer<typeof loginFormSchema>) => {
         setSuccess("");

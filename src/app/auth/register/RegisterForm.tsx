@@ -28,6 +28,7 @@ import {
 import { useState, useTransition } from "react";
 import SuccessMessage from "@/components/SuccessMessage";
 import ErrorMessage from "@/components/ErrorMessage";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 const RegisterForm = () => {
     const form = useForm<z.infer<typeof registerFormSchema>>({
@@ -44,6 +45,7 @@ const RegisterForm = () => {
     const [error, setError] = useState<string | undefined>("");
     const [isPending, startTransition] = useTransition();
 
+    const { storedValue: configId } = useLocalStorage("configId", "");
     const onSubmit = (values: z.infer<typeof registerFormSchema>) => {
         setSuccess("");
         setError("");
@@ -51,7 +53,6 @@ const RegisterForm = () => {
         startTransition(async () => {
             const results = await register(values);
 
-            const configId = localStorage.getItem("configId");
             await login(
                 {
                     email: values.email.toLowerCase(),

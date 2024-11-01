@@ -18,6 +18,7 @@ import { useToast } from "@/hooks/use-toast";
 import LoginModal from "@/components/LoginModal";
 import { useState } from "react";
 import { Session } from "next-auth";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 interface DesignPreviewProps {
     session: Session | null;
@@ -72,15 +73,16 @@ const DesignPreview = ({ session, config }: DesignPreviewProps) => {
     });
 
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+    const { setValue, removeValue } = useLocalStorage("configId", "");
 
     const handleCheckout = async () => {
         if (!session) {
             setIsLoginModalOpen(true);
-            localStorage.setItem("configId", config.id);
+            setValue(config.id);
             return;
         }
 
-        localStorage.removeItem("configId");
+        removeValue();
         checkout();
     };
 
