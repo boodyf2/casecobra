@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import snake from "@/assets/snake-1.png";
 import Link from "next/link";
-import { Button, buttonVariants } from "./ui/button";
+import { buttonVariants } from "./ui/button";
 
 interface LoginModalProps {
     isOpen: boolean;
