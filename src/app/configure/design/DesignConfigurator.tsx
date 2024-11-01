@@ -204,6 +204,7 @@ const DesignConfigurator = ({
                             className="z-50 select-none object-cover"
                             src={phone}
                             alt="phone"
+                            priority={true}
                         />
                     </AspectRatio>
                     <div className="absolute inset-0 z-40 rounded-[32px] shadow-[0_0_0_9999px_rgba(229,231,235,0.6)]" />

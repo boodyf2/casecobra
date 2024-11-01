@@ -4,7 +4,7 @@ import React from "react";
 
 const LoginPage = () => {
     return (
-        <MaxWidthWrapper className="my-8 h-[94vh] flex justify-center items-center">
+        <MaxWidthWrapper className="my-auto flex justify-center items-center">
             <LoginForm />
         </MaxWidthWrapper>
     );

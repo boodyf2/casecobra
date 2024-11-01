@@ -3,7 +3,12 @@ import Phone from "@/components/Phone";
 import { Button } from "@/components/ui/button";
 import { BASE_PRICE } from "@/config/products";
 import { formatPrice } from "@/lib/utils";
-import { FINISHES, MATERIALS, MODELS } from "@/validators/options-validator";
+import {
+    COLORS,
+    FINISHES,
+    MATERIALS,
+    MODELS,
+} from "@/validators/options-validator";
 import { Configuration } from "@prisma/client";
 import { useMutation } from "@tanstack/react-query";
 import { ArrowRight, Check } from "lucide-react";
@@ -15,11 +20,16 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 
 const DesignPreview = ({ config }: { config: Configuration }) => {
-    const { phoneModel, croppedImageUrl, caseFinish, caseMaterial } = config;
+    const { color, phoneModel, croppedImageUrl, caseFinish, caseMaterial } =
+        config;
 
     const modelLabel = MODELS.options.find(
         (option) => option.value === phoneModel
     )?.label;
+
+    const colorTw = COLORS.find(
+        (colorOption) => colorOption.value === color
+    )?.tw;
 
     const { price: finishPrice, label: finishLabel } = FINISHES.options.find(
         (option) => option.value === caseFinish
@@ -75,7 +85,10 @@ const DesignPreview = ({ config }: { config: Configuration }) => {
         <>
             <div className="my-10 grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div className="space-y-2 max-w-52 mx-auto lg:max-w-52 col-span-1">
-                    <Phone className="" imgSrc={croppedImageUrl as string} />
+                    <Phone
+                        className={colorTw}
+                        imgSrc={croppedImageUrl as string}
+                    />
                 </div>
                 <div className="space-y-8 col-span-2">
                     <div className="space-y-2">

@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import snake from "@/assets/snake-1.png";
 import Link from "next/link";
-import { Button } from "./ui/button";
+import { Button, buttonVariants } from "./ui/button";
 
 interface LoginModalProps {
     isOpen: boolean;
@@ -30,12 +30,23 @@ const LoginModal = ({ isOpen, setIsOpen }: LoginModalProps) => {
                         purchase
                     </p>
                     <div className="flex gap-4">
-                        <Button className="flex-1" variant="outline">
-                            <Link href="/auth/login">Login</Link>
-                        </Button>
-                        <Button className="flex-1">
-                            <Link href="/auth/register">Register</Link>
-                        </Button>
+                        <Link
+                            href="/auth/login"
+                            className={buttonVariants({
+                                variant: "outline",
+                                className: "flex-1",
+                            })}
+                        >
+                            Login
+                        </Link>
+                        <Link
+                            href="/auth/register"
+                            className={buttonVariants({
+                                className: "flex-1",
+                            })}
+                        >
+                            Register
+                        </Link>
                     </div>
                 </DialogDescription>
             </DialogContent>
