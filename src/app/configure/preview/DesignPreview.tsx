@@ -67,11 +67,13 @@ const DesignPreview = ({ config }: { config: Configuration }) => {
         },
     });
 
-    const { status } = useSession();
+    const { update } = useSession();
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
     const handleCheckout = async () => {
-        if (status === "unauthenticated") {
+        const session = await update();
+
+        if (!session) {
             setIsLoginModalOpen(true);
             localStorage.setItem("configId", config.id);
             return;

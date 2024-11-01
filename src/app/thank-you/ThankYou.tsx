@@ -34,7 +34,6 @@ const ThankYou = ({ orderId }: { orderId: string }) => {
         );
     }
 
-    console.log(data);
     const { color, croppedImageUrl } = data.config;
     const { city, street, postalCode, state } = data.shippingAddress!;
 

@@ -18,9 +18,7 @@ export const createCheckoutSession = async (configId: string) => {
     // Create a new order if it doesn't exist
     const session = await auth();
     if (!session) {
-        const err = new Error("You have to be logged in to continue");
-        err.cause = "loggedOut";
-        throw err;
+        throw new Error("You have to be logged in to continue");
     }
 
     const { user } = session;
