@@ -116,10 +116,6 @@ Access the admin dashboard at `/admin` to:
 -   Update product shipping status
 -   Monitor sales analytics
 
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## 🙏 Acknowledgments
 
 -   Original inspiration from [joschan21/casecobra](https://github.com/joschan21/casecobra)
