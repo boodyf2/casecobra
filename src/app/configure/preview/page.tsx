@@ -2,6 +2,7 @@ import { prisma } from "@/prisma";
 import { notFound } from "next/navigation";
 import DesignPreview from "./DesignPreview";
 import { SessionProvider } from "next-auth/react";
+import { auth } from "@/auth";
 
 interface PreviewPageProps {
     searchParams: {
@@ -14,9 +15,12 @@ const PreviewPage = async ({ searchParams: { id } }: PreviewPageProps) => {
         return notFound();
     }
 
+    const session = await auth();
+    console.log(session);
+
     return (
         <SessionProvider>
-            <DesignPreview config={config} />
+            <DesignPreview session={session} config={config} />
         </SessionProvider>
     );
 };

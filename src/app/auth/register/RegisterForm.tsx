@@ -50,8 +50,7 @@ const RegisterForm = () => {
 
         startTransition(async () => {
             const results = await register(values);
-            setError(results?.error);
-            setSuccess(results?.success);
+
             const configId = localStorage.getItem("configId");
             await login(
                 {
@@ -60,6 +59,9 @@ const RegisterForm = () => {
                 },
                 configId
             );
+
+            setError(results?.error);
+            setSuccess(results?.success);
         });
     };
 

@@ -29,7 +29,7 @@ const LoginModal = ({ isOpen, setIsOpen }: LoginModalProps) => {
                         Please login or create an account to complete your
                         purchase
                     </p>
-                    <div className="flex gap-4">
+                    <span className="flex gap-4">
                         <Link
                             href="/auth/login"
                             className={buttonVariants({
@@ -47,7 +47,7 @@ const LoginModal = ({ isOpen, setIsOpen }: LoginModalProps) => {
                         >
                             Register
                         </Link>
-                    </div>
+                    </span>
                 </DialogDescription>
             </DialogContent>
         </Dialog>

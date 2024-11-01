@@ -17,9 +17,13 @@ import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import LoginModal from "@/components/LoginModal";
 import { useState } from "react";
-import { useSession } from "next-auth/react";
+import { Session } from "next-auth";
 
-const DesignPreview = ({ config }: { config: Configuration }) => {
+interface DesignPreviewProps {
+    session: Session | null;
+    config: Configuration;
+}
+const DesignPreview = ({ session, config }: DesignPreviewProps) => {
     const { color, phoneModel, croppedImageUrl, caseFinish, caseMaterial } =
         config;
 
@@ -49,7 +53,7 @@ const DesignPreview = ({ config }: { config: Configuration }) => {
     const { toast } = useToast();
     const { mutate: checkout, isPending } = useMutation({
         mutationKey: ["checkout"],
-        mutationFn: () => createCheckoutSession(config.id),
+        mutationFn: async () => await createCheckoutSession(config.id),
         onSuccess: ({ url }) => {
             if (!url) {
                 throw new Error("Unable to retrieve payment URL");
@@ -67,12 +71,9 @@ const DesignPreview = ({ config }: { config: Configuration }) => {
         },
     });
 
-    const { update } = useSession();
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
     const handleCheckout = async () => {
-        const session = await update();
-
         if (!session) {
             setIsLoginModalOpen(true);
             localStorage.setItem("configId", config.id);
